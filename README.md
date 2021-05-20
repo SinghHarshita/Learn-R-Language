@@ -12,3 +12,12 @@ Each folder represents an experiment. The experiment details are :
     * formatting output etc.
     * Program to calculate simple and compound interest.
     * Program to performs different conversions like temperature conversion, distance conversion etc. 
+2. Experiment to study different Data Structures supported by R Programming.
+3. Experiment to study different control structures and functions supported by R Programming.
+    * Write a menu driven code which will read a number and should implement the following methods
+        * factorial()
+        * reverse()
+        * testArmstrong()
+        * testPalindrome()
+        * testPrime()
+    * Program to Display Fibonacci Sequence Using Recursion
