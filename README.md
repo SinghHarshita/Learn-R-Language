@@ -10,7 +10,5 @@ Each folder represents an experiment. The experiment details are :
     * type conversion, 
     * I/P & O/P statements, 
     * formatting output etc.
-
-Programs :
     * Program to calculate simple and compound interest.
     * Program to performs different conversions like temperature conversion, distance conversion etc. 
