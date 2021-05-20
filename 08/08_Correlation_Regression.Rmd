@@ -1,0 +1,251 @@
+---
+title: "R Notebook for Corrleation & Regression"
+output: html_notebook
+author: "Harshita Singh"
+---
+
+__Importing Libraries__
+```{r}
+library(ggplot2)
+library(dplyr)
+library(broom)
+library(ggpubr)
+
+```
+
+
+__Load Data__
+
+In this notebook mtcars dataset is used.
+```{r}
+# display first 5 observations
+head(mtcars, 5)
+
+```
+
+```{r}
+# remove vs and am variables
+library(tidyverse)
+dat <- mtcars %>%
+  select(-vs, -am)
+
+# display 5 first obs. of new dataset
+head(dat, 5)
+
+```
+
+__Correlation Coefficient Between Two Variables__ 
+
+The correlation between 2 variables is found with the cor() function. Suppose we want to compute the correlation between horsepower (hp) and miles per gallon (mpg):
+```{r}
+# Pearson correlation between 2 variables
+cor(dat$hp, dat$mpg)
+```
+Note that the correlation between variables x and y is equal to the correlation between variables y and x so the order of the variables in the cor() function does not matter.
+
+The Pearson correlation is computed by default with the cor() function. If you want to compute the Spearman correlation, add the argument method = "spearman" to the cor() function
+```{r}
+# Spearman correlation between 2 variables
+cor(dat$hp, dat$mpg,
+  method = "spearman"
+)
+```
+While Pearson correlation is often used for quantitative continuous variables, Spearman correlation (which is based on the ranked values for each variable rather than on the raw data) is often used to evaluate relationships involving ordinal variables.
+
+
+__Correlation matrix: correlations for all variables__
+
+```{r}
+# correlation for all variables
+round(cor(dat),
+  digits = 2 # rounded to 2 decimals
+)
+```
+
+__Interpretation of a correlation coefficient__
+
+Correlation ranges from -1 to 1.
+
+On the one hand, a negative correlation implies that the two variables under consideration vary in opposite directions, that is, if a variable increases the other decreases and vice versa. On the other hand, a positive correlation implies that the two variables under consideration vary in the same direction, i.e., if a variable increases the other one increases and if one decreases the other one decreases as well. Last but not least, a correlation close to 0 indicates that the two variables are independent.
+
+As an illustration, the Pearson correlation between horsepower (hp) and miles per gallon (mpg) found above is -0.78, meaning that the 2 variables vary in opposite direction. This makes sense, cars with more horsepower tend to consume more fuel (and thus have a lower millage par gallon). On the contrary, from the correlation matrix we see that the correlation between miles per gallon (mpg) and the time to drive 1/4 of a mile (qsec) is 0.42, meaning that fast cars (low qsec) tend to have a worse millage per gallon (low mpg). This again make sense as fast cars tend to consume more fuel.
+
+The correlation matrix is however not easily interpretable, especially when the dataset is composed of many variables. In the following sections, we present some alternatives to the correlation matrix.
+
+
+
+__A scatterplot for 2 variables__
+
+```{r}
+ggplot(dat) +
+  aes(x = hp, y = mpg) +
+  geom_point(colour = "#0c4c8a") +
+  theme_minimal()
+```
+
+
+```{r}
+plot(dat$hp, dat$mpg)
+```
+
+
+__Scatterplots for several pairs of variables__
+```{r}
+# multiple scatterplots
+pairs(dat[, c(1, 4, 6)])
+
+plot(dat)
+```
+
+__correlation matrix__
+
+```{r}
+# improved correlation matrix
+library(corrplot)
+
+corrplot(cor(dat),
+  method = "number",
+  type = "upper" # show only upper side
+)
+```
+
+
+__Correlation Test For 2 Variables__
+
+Unlike a correlation matrix which indicates correlation coefficients between pairs of variables, the correlation test is used to test whether the correlation (denoted ρ) between 2 variables is significantly different from 0 or not.
+
+Actually, a correlation coefficient different from 0 does not mean that the correlation is significantly different from 0. This needs to be tested with a correlation test. The null and alternative hypothesis for the correlation test are as follows:
+
+H0: ρ=0
+
+H1: ρ≠0
+
+Suppose that we want to test whether the rear axle ratio (drat) is correlated with the time to drive a quarter of a mile (qsec):
+
+```{r}
+# Pearson correlation test
+test <- cor.test(dat$drat, dat$qsec)
+test
+```
+
+
+The p-value of the correlation test between these 2 variables is 0.62. At the 5% significance level, we do not reject the null hypothesis of no correlation. We therefore conclude that we do not reject the hypothesis that there is no linear relationship between the 2 variables.
+
+This test proves that even if the correlation coefficient is different from 0 (the correlation is 0.09), it is actually not significantly different from 0.
+
+Note that the p-value of a correlation test is based on the correlation coefficient and the sample size. The larger the sample size and the more extreme the correlation (closer to -1 or 1), the more likely the null hypothesis of no correlation will be rejected. With a small sample size, it is thus possible to obtain a relatively large correlation (based on the correlation coefficient), but still find a correlation not significantly different from 0 (based on the correlation test). For this reason, it is recommended to always perform a correlation test before interpreting a correlation coefficient to avoid flawed conclusions.
+
+
+__Correlation Test For several pairs of variables__
+```{r}
+# correlation tests for whole dataset
+library(Hmisc)
+res <- rcorr(as.matrix(dat)) # rcorr() accepts matrices only
+round(res$P, 3)
+```
+
+__Combination of correlation coefficients and correlation tests__
+
+Ideally, we would like to have a concise overview of correlations between all possible pairs of variables present in a dataset, with a clear distinction for correlations that are significantly different from 0.
+
+```{r}
+corrplot2 <- function(data,
+                      method = "pearson",
+                      sig.level = 0.05,
+                      order = "original",
+                      diag = FALSE,
+                      type = "upper",
+                      tl.srt = 90,
+                      number.font = 1,
+                      number.cex = 1,
+                      mar = c(0, 0, 0, 0)) {
+  library(corrplot)
+  data_incomplete <- data
+  data <- data[complete.cases(data), ]
+  mat <- cor(data, method = method)
+  cor.mtest <- function(mat, method) {
+    mat <- as.matrix(mat)
+    n <- ncol(mat)
+    p.mat <- matrix(NA, n, n)
+    diag(p.mat) <- 0
+    for (i in 1:(n - 1)) {
+      for (j in (i + 1):n) {
+        tmp <- cor.test(mat[, i], mat[, j], method = method)
+        p.mat[i, j] <- p.mat[j, i] <- tmp$p.value
+      }
+    }
+    colnames(p.mat) <- rownames(p.mat) <- colnames(mat)
+    p.mat
+  }
+  p.mat <- cor.mtest(data, method = method)
+  col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
+  corrplot(mat,
+    method = "color", col = col(200), number.font = number.font,
+    mar = mar, number.cex = number.cex,
+    type = type, order = order,
+    addCoef.col = "black", # add correlation coefficient
+    tl.col = "black", tl.srt = tl.srt, # rotation of text labels
+    # combine with significance level
+    p.mat = p.mat, sig.level = sig.level, insig = "blank",
+    # hide correlation coefficiens on the diagonal
+    diag = diag
+  )
+}
+
+corrplot2(
+  data = dat,
+  method = "pearson",
+  sig.level = 0.05,
+  order = "original",
+  diag = FALSE,
+  type = "upper",
+  tl.srt = 75
+)
+```
+The correlogram shows correlation coefficients for all pairs of variables (with more intense colors for more extreme correlations), and correlations not significantly different from 0 are represented by a white box.
+
+
+__Linear Regression__
+
+Regression is different from correlation because it try to put variables into equation and thus explain causal relationship between them, for example the most simple linear equation is written : Y=aX+b, so for every variation of unit in X, Y value change by aX. Because we are trying to explain natural processes by equations that represent only part of the whole picture we are actually building a model that’s why linear regression are also called linear modelling.
+
+```{r}
+m1<-lm(mpg~cyl,data=mtcars)
+summary(m1)
+
+```
+
+
+```{r}
+par(mfrow=c(2,2))
+plot(m1)
+```
+
+
+
+```{r}
+anova(m1)
+```
+
+__Multiple Linear Regression__
+
+```{r}
+m2 <- lm(mpg ~ cyl + disp + wt, data=mtcars)
+summary(m2)
+
+par(mfrow=c(2,2))
+plot(m2)
+```
+
+
+```{r}
+anova(m2)
+```
+
+
+
+
+
+
+
+

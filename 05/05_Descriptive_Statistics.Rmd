@@ -1,0 +1,160 @@
+---
+title: "Descriptive Statistics in R"
+output: html_notebook
+author: "Harshita Singh"
+date: "18-04-2021"
+---
+
+1. str() function :
+
+    The str() function takes a single object as an argument and compactly shows us the structure of the input object. It shows us details like length, data type, names and other specifics about the components of the object.
+```{r}
+str(mtcars)
+```
+
+2. summary function() :
+
+    The summary() function also takes a single object as an argument. 
+    It then returns the averages measures like mean, median, minimum, maximum, 1st quantile, 3rd quantile, etc. for each # component or variable in the object.
+```{r}
+summary(mtcars)
+```
+
+3. sum(), length() :
+    The sum of a variable can be found with the sum function, and the number of observations can be found with the length function.
+```{r}
+sum(mtcars)
+length(mtcars)
+```
+4. mean() :
+
+    The mean of a given set of numeric or logical values(it may be a vector or a row or column of any other data structure) can be easily found using the mean() function.
+
+```{r}
+mean(mtcars$mpg)
+```
+5. median() :
+
+    Finding the median of a set of numeric or logical values is also very easy by using the median() function.
+```{r}
+median(mtcars$mpg)
+```
+6. sd() :
+
+    The standard deviation of a set of numerical values can be found using the sd() function.
+
+```{r}
+sd(mtcars$cyl)
+```
+7. var() :
+
+    The var() function gives us the variance of a set of numeric or logical values.
+
+```{r}
+var(mtcars$cyl)
+```
+8. mad() :
+
+    The median absolute variance of a set of numeric or logical values can be found by using the mad() function.
+```{r}
+mad(mtcars$cyl)
+```
+9. max() :
+
+    The max() function to find the maximum or the largest value in the set.
+```{r}
+max(mtcars$mpg)
+```
+10. min() :
+
+    The min() function is a very handy way to find out the smallest value in a set of numeric values.
+```{r}
+
+min(mtcars$mpg)
+```
+11. Standard error of the mean :
+     
+     Standard error of the mean is a measure that estimates how close a calculated mean is likely to be to the true mean of that population. It is commonly used in tables or plots where multiple  means are presented together. 
+
+```{r}
+
+sd(mtcars$mpg)/sqrt(length(mtcars$mpg))
+```
+12. quantile() function :
+
+```{r}
+# quartiles can be calculated using quantile() function
+cat("First Quartile :", quantile(mtcars$mpg, 0.25),
+    "\nSecond Quartile :", quantile(mtcars$mpg, 0.5),
+    "\nThrid Quartile :", quantile(mtcars$mpg, 0.75),
+    "\nFourth Decile :", quantile(mtcars$mpg, 0.4),
+    "\n98th Percentile :", quantile(mtcars$mpg, 0.98))
+```
+
+13. IQR() function :
+
+    The interquartile range (i.e., the difference between the first and third quartile) can be computed with the IQR() function
+
+```{r}
+IQR(mtcars$mpg)
+```
+14. lapply() :
+
+    To compute the standard deviation (or variance) of multiple variables at the same time, use lapply() with the appropriate statistics as second argument.
+
+```{r}
+lapply(mtcars[, 1:4], sd)
+```
+
+15. Package pastecs
+```{r}
+library("pastecs")
+stat.desc(mtcars)
+```
+
+
+16. Coefficient of variation
+```{r}
+sd(mtcars$mpg) / mean(mtcars$mpg)
+```
+17. mode :
+
+```{r}
+# Mode
+library(modeest)
+mfv(mtcars$mpg)
+```
+
+
+```{r}
+# The rowMeans() function, as the name suggests, returns the mean of a selected row of a data structure.
+rowMeans(mtcars[3,])
+```
+
+
+```{r}
+# The rowSums() function finds the sum of a selected row of a data structure.
+rowSums(mtcars[3,])
+```
+
+
+```{r}
+# The colMeans() function returns the mean of a selected column of a data structure.
+colMeans(mtcars)
+```
+
+
+```{r}
+# The colSums() function calculate the sum of a selected column of a data structure.
+colSums(mtcars)
+```
+
+
+
+
+
+
+
+
+
+

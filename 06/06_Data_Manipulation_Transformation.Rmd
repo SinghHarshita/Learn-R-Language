@@ -1,0 +1,92 @@
+---
+title: "Data Manipulation & Transformation in R"
+output: html_notebook
+author: "Harshita Singh"
+---
+
+
+__Data Manipulation__
+
+    Data Manipulation is the process of organizing data to read and understand it better. The data can be sorted according to date, time, serial number or any other field. 
+    People in the accounts department of a company use the data to determine sales trends, user preferences, market statistics and product prices. Financial analysts use data to understand how the stock market is performing, trends and the best stocks where they should invest.
+
+__Data Transformation__
+
+    Data Transformation in a statistics context means the application of a mathematical expression to each point in the data. 
+    In contrast, in a Data Engineering context Transformation can also mean transforming data from one format to another in the Extract Transform Load (ETL) process.
+
+
+__Load Libraries__
+```{r}
+library('dplyr')
+library('tidyverse')
+
+```
+
+
+__View Dataset__
+```{r}
+# Viewing Dataset
+View(mtcars)
+```
+
+
+__Filter Rows__
+
+filter() allows you to subset observations based on their values. The first argument is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame.
+```{r}
+# Filtering data from dataset where cars having horsepower(hp) value greater than 190
+disp_data <- mtcars %>% filter(hp>=190)
+disp_data
+```
+
+```{r}
+# FIltering data from dataset where cars having horsepower(hp) value greater than 190, am value equal to 0 and wt value greater than 5
+disp_data <- mtcars %>% filter(hp>=190, wt>5, am==0)
+# View(disp_data)
+disp_data
+```
+
+
+__Arrange Rows__
+
+arrange() works similarly to filter() except that instead of selecting rows, it changes their order. It takes a data frame and a set of column names (or more complicated expressions) to order by.
+```{r}
+# Arranging the data of dataset according to disp column
+disp_data <- mtcars %>% arrange(disp)
+disp_data
+```
+
+```{r}
+# Arranging the data of dataset according multiple columns
+disp_data <- mtcars %>% arrange(disp, hp, wt)
+disp_data
+```
+
+
+```{r}
+# Arranging the above data in descending order
+disp_data <- mtcars %>% arrange(desc(disp, hp, wt))
+disp_data
+```
+
+__Selecting Rows__
+
+The select() method is one of the basic functions for data manipulation in R. This method is used for selecting columns in R. Using this, you can select data as with its column name. The columns can be selected based on certain conditions.
+```{r}
+# Selecting few columns from the complete dataset
+disp_data <- mtcars %>% select(mpg, hp, wt)
+disp_data
+```
+
+```{r}
+# Selecting range of continuous columns from the dataset
+disp_data <- mtcars %>% select(mpg:hp)
+disp_data
+```
+
+
+
+
+
+

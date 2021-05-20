@@ -1,0 +1,657 @@
+---
+title: "R Notebook to learn data structures supported by R"
+output: html_notebook
+author: "Harshita Singh"
+---
+
+__Vectors__
+```{r}
+# R Vectors
+
+# Creating a vector that combines strings
+subjects <- c("BDA", "IOE", "ERP", "PM")
+labs <- c("R Lab", "DevOps Lab", "IOE Lab", "BDA Lab")
+
+subjects
+labs
+
+```
+
+
+
+```{r}
+# Create a vector that combines numerical values
+numbers <- c(23, 456, 1, 0, -1, 89, 1.2)
+numbers
+
+```
+
+
+
+```{r}
+# create a vector with numerical values in a sequence
+sequenced_numbers <- 23:32
+sequenced_numbers
+
+```
+
+
+
+```{r}
+# Vector with numerical decimals in a sequence
+v1 <- 4.5:10.5
+v1
+
+# Vector with numerical decimals in a sequence where the last element is not used
+v2 <- 4.5:10.3
+v2
+
+```
+
+
+
+```{r}
+# create a vector of logical values
+logical_vector <- c(TRUE, FALSE, FALSE, TRUE)
+logical_vector
+
+```
+
+
+```{r}
+# Vector Length
+sequenced_numbers <- 1:10
+length(sequenced_numbers)
+
+```
+
+
+
+```{r}
+# Sort Vector
+fruits <- c("banana", "apple", "orange", "mango", "lemon")
+numbers <- c(13, 3, 5, 7, 20, 2)
+
+sort(fruits)  # Sort a string
+sort(numbers) # Sort numbers
+
+```
+```{r}
+# Access vector
+subjects <- c("BDA", "IOE", "ERP", "PM")
+subjects[1] # single element access
+subjects[c(1,3)] # multiple elements access
+subjects[c(-1)] # negative index access - Access all items except for the first item
+
+```
+
+```{r}
+# Change a value of an item
+fruits <- c("banana", "apple", "orange", "mango", "lemon")
+
+# Change "banana" to "pear"
+fruits[1] <- "pear"
+fruits
+
+```
+
+
+```{r}
+# Repeat vector
+# Repeat each value
+repeat_each <- rep(c(11,12,13), each = 3)
+repeat_each
+
+# Repeat the sequence of the vector
+repeat_times <- rep(c(11,12,13), times = 3)
+repeat_times
+
+# Repeat each value independently
+repeat_indepent <- rep(c(11,12,13), times = c(2,4,1))
+repeat_indepent
+
+```
+
+
+```{r}
+# Generating sequenced vectors :
+# Using : operator
+numbers <- 1:10
+numbers
+
+# Using seq() function
+numbers <- seq(from=0, to=50, by=15)
+numbers
+
+```
+__Lists__
+
+```{r}
+# R Lists
+
+# Creating a list
+subjects <- list("BDA", "IOE", "ERP", "PM")
+subjects
+
+```
+
+
+
+```{r}
+# Access list items
+
+subjects[1]
+subjects[3]
+subjects[1:4]
+
+```
+
+```{r}
+# Change item value
+thislist <- list("apple", "banana", "cherry")
+thislist[1] <- "blackcurrant"
+
+# Print the updated list
+thislist
+
+```
+```{r}
+# List length
+length(subjects)
+
+```
+
+
+```{r}
+# Check if items exist in the list
+subjects <- list("BDA", "IOE", "ERP", "PM")
+"BDA" %in% subjects
+"Big Data Analytics" %in% subjects
+
+```
+
+```{r}
+# Add items to list
+subjects <- list("BDA", "IOE", "ERP", "PM")
+append(subjects, "DevOps")
+subjects
+
+# Append after IOE
+append(subjects, "R Programming", after = 2)
+subjects
+
+```
+
+
+```{r}
+# Remove item from list
+subjects <- list("BDA", "IOE", "ERP", "PM")
+new_subjects <- subjects[-1]
+new_subjects
+
+```
+
+```{r}
+# Loop through a list
+thislist <- list("apple", "banana", "cherry")
+
+for (x in thislist) {
+  print(x)
+}
+
+```
+
+
+```{r}
+
+# Join two lists
+subjects <- list("BDA", "IOE", "ERP", "PM")
+labs <- list("R Lab", "DevOps Lab", "IOE Lab", "BDA Lab")
+
+all_courses <- c(subjects, labs)
+all_courses
+
+```
+
+__Matrices__
+
+```{r}
+# R Matrices
+
+# Create a matrix
+m <- matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, ncol=3)
+m
+
+```
+
+
+```{r}
+# Create a matrix of strings
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+subjects
+
+```
+
+```{r}
+# Access an item
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+subjects[1,2]
+subjects[2,1]
+m <- matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, ncol=3)
+m[3,3] 
+m[2,3]
+
+```
+
+```{r}
+# Access a row
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+subjects[1,]
+m <- matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, ncol=3)
+m[3,]
+
+```
+
+
+```{r}
+# Access a column
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+subjects[,1]
+m <- matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, ncol=3)
+m[,2]
+
+```
+
+```{r}
+# Access more than one row
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+subjects[c(1,2),]
+
+m <- matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, ncol=3)
+m[c(2,3),]
+
+```
+
+
+```{r}
+# Access more than one column
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+subjects[,c(1,2)]
+m <- matrix(c(1,2,3,4,5,6,7,8,9), nrow=3, ncol=3)
+m[,c(1,2,3)]
+
+```
+
+```{r}
+# Add more rows and columns
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange","grape", "pineapple", "pear", "melon", "fig"), 
+                     nrow = 3, ncol = 3)
+newmatrix <- cbind(thismatrix, c("strawberry", "blueberry", "raspberry"))
+# Print the new matrix
+newmatrix
+
+```
+
+
+```{r}
+# Add more rows
+thismatrix <- matrix(
+  c("apple", "banana", "cherry", "orange","grape", "pineapple", "pear", "melon", "fig"), 
+  nrow = 3, ncol = 3
+)
+
+newmatrix <- rbind(thismatrix, c("strawberry", "blueberry", "raspberry"))
+
+# Print the new matrix
+newmatrix
+
+```
+
+```{r}
+# Remove rows and columns
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange", "mango", "pineapple"), nrow = 3, ncol =2)
+
+#Remove the first row and the first column
+thismatrix <- thismatrix[-c(1), -c(1)]
+
+thismatrix
+
+```
+
+
+```{r}
+# Check if an item exists
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+"BDA" %in% subjects
+"R Programming" %in% subjects
+
+```
+
+```{r}
+# Find amount of rows and columns
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+dim(subjects)
+
+```
+
+
+```{r}
+# Matrix length
+subjects <- matrix(c("BDA", "IOE", "ERP", "PM"), nrow=2, ncol=2)
+length(subjects)
+
+```
+
+
+```{r}
+# Loop through a matrix
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange"), nrow = 2, ncol = 2)
+
+for (rows in 1:nrow(thismatrix)) {
+  for (columns in 1:ncol(thismatrix)) {
+    print(thismatrix[rows, columns])
+  }
+}
+
+```
+
+
+```{r}
+# Combine matrices
+Matrix1 <- matrix(c("apple", "banana", "cherry", "grape"), nrow = 2, ncol = 2)
+Matrix2 <- matrix(c("orange", "mango", "pineapple", "watermelon"), nrow = 2, ncol = 2)
+
+# Adding it as a rows
+print("Adding rows")
+Matrix_Combined <- rbind(Matrix1, Matrix2)
+Matrix_Combined
+
+# Adding it as a columns
+print("Adding columns")
+Matrix_Combined <- cbind(Matrix1, Matrix2)
+Matrix_Combined
+
+```
+
+```{r}
+matrix1 <- matrix(1:20, ncol = 4, nrow = 5)
+matrix2 <- matrix(21:40, ncol = 4, nrow = 5)
+
+# Add two matrices
+cat("\nAddition of matrices\n")
+matrix1 + matrix2
+
+# Subtract two matrices
+cat("\nSubtraction of matrices\n")
+matrix2 - matrix1
+
+# Multiply matrix by a constant
+cat("\nMultiplication of matrices\n")
+matrix1 * 5
+matrix2 * 2
+
+# division of two matrices
+cat("\nDivision of matrices\n")
+matrix2 / matrix1
+
+# Identity matrix
+cat("\nIndentity Matrix\n")
+diag(5)
+
+# Transpose of a matrix
+cat("\nTranspose\n")
+t(matrix1)
+t(matrix2)
+
+```
+
+
+
+__Arrays__
+
+```{r}
+# R Arrays
+
+# Create array
+# An array with one dimension with values ranging from 1 to 24
+a <- c(1:24)
+a
+
+# An array with more than one dimension
+multiarray <- array(a, dim = c(4, 3, 2))
+multiarray
+
+```
+
+
+
+```{r}
+# Access array items, rows or columns
+a <- c(1:24)
+multiarray <- array(a, dim = c(4, 3, 2))
+multiarray[2,2,2]
+multiarray[1,2,2]
+multiarray[2,3,1]
+
+multiarray[c(1),,1]
+multiarray[,c(1),1]
+
+```
+
+```{r}
+# check if am item exists
+a <- c(1:24)
+multiarray <- array(a, dim = c(4, 3, 2))
+16 %in% multiarray
+25 %in% multiarray
+
+```
+
+```{r}
+# Find the amount of rows and columns
+a <- c(1:6)
+multiarray <- array(a, dim = c(3, 2))
+dim(multiarray)
+
+```
+
+
+```{r}
+# Length of array
+a <- c(1:24)
+multiarray <- array(a, dim = c(4, 3, 2))
+length(multiarray)
+
+```
+
+
+
+```{r}
+# Loop through an array
+thisarray <- c(1:6)
+multiarray <- array(thisarray, dim = c(3, 2))
+
+for(x in multiarray){
+  print(x)
+}
+```
+__Data Frames__
+
+```{r}
+# R Data Frames
+# Create data frame to store student details
+student_details <- data.frame(
+  RollNo = 1:10,
+  BDA_Marks = rep(c(20,15,18), times = c(4,3,3)),
+  IOE_Marks = rep(c(18,19,20), times = c(3,5,2)),
+  DLO_Subject = rep(c("ERP", "UID"), times = c(3,7)),
+  ILO_Subject = rep(c("PM", "FM"), times = c(6,4))
+)
+
+student_details
+```
+
+
+```{r}
+# Summarise Data Frame
+summary(student_details)
+```
+
+
+
+```{r}
+# Access Items
+print(student_details[2])
+
+print(student_details[["DLO_Subject"]])
+
+print(student_details$DLO_Subject)
+
+print(student_details[1:2])
+
+```
+
+
+```{r}
+# Add new row to data frame containing student details
+new_row_student_details <- rbind(
+  student_details,
+  c(11, 20, 20, "ERP", "PM")
+)
+
+new_row_student_details
+
+```
+
+
+
+
+```{r}
+# Add new col to data frame containing student details
+new_col_student_details <- cbind(
+  student_details,
+  DLO_Marks = rep(c(18,19,20), times = c(3,5,2))
+)
+
+new_col_student_details
+
+```
+
+
+
+```{r}
+# Remove rows and columns
+new_student_details <- student_details[-c(2:6), -c(2)]
+
+new_student_details
+
+```
+
+
+```{r}
+# To find the amount rows and columns
+dim(student_details)
+
+# ncol and nrow can also be used
+ncol(student_details)
+nrow(student_details)
+
+```
+
+```{r}
+# Data frame length - similar to ncol
+length(student_details)
+
+```
+
+
+```{r}
+# Combining Data Frames
+# Use the rbind() function to combine two or more data frames in R vertically
+student_details2 <- data.frame(
+  RollNo = 11:20,
+  BDA_Marks = rep(c(20,19,18), times = c(4,3,3)),
+  IOE_Marks = rep(c(15,19,20), times = c(3,5,2)),
+  DLO_Subject = rep(c("ERP", "UID"), times = c(2,8)),
+  ILO_Subject = rep(c("PM", "FM"), times = c(6,4))
+)
+
+new_student_details <- rbind(student_details, student_details2)
+new_student_details
+
+# Use the cbind() function to combine two or more data frames in R horizontally
+student_details3 <- data.frame(
+  DLO_Marks = rep(c(15,19,20), times = c(3,5,2)),
+  ILO_Marks = rep(c(15,19,20,18), times = c(3,3,2,2))
+)
+
+new_student_details <- cbind(student_details, student_details3)
+new_student_details
+
+```
+
+__Factors__
+
+```{r}
+
+# Create R Factor
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"))
+music_genre
+
+# To only print the levels
+levels(music_genre)
+
+# Can also set the levels, by adding the levels argument inside the factor() function
+music_genre <- factor(c("Jazz", "Rock", "Classic", "Classic", "Pop", "Jazz", "Rock", "Jazz"), levels = c("Classic", "Jazz", "Pop", "Rock", "Other"))
+
+levels(music_genre)
+```
+
+
+```{r}
+
+# Factor length
+length(music_genre)
+
+```
+
+
+```{r}
+# Access factor items
+music_genre[3]
+music_genre[1:3]
+
+```
+
+```{r}
+# Change Item Value
+# Note: Cannot change the value of a specific item if it is not already specified in the factor.
+music_genre[3] <- "Pop"
+
+music_genre[3]
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

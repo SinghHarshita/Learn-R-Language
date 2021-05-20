@@ -1,0 +1,377 @@
+---
+title: "Import and Export Statements in R"
+output: html_notebook
+author: "Harshita Singh"
+---
+
+
+
+```{r}
+# Handling Text Files
+file_name = '..\\DataFiles\\my_file.txt'
+
+# Data frame without header
+headerless_data <- read.table(file_name, # TXT data file indicated as string or full path to the file
+           header = FALSE,    # Whether to display the header (TRUE) or not (FALSE)
+           sep = "",          # Separator of the columns of the file
+           dec = ".")         # Character used to separate decimals of the numbers in the file
+
+headerless_data
+
+# Data frame with header
+header_data <- read.table(file_name,
+           header = TRUE,
+           sep = "",          
+           dec = ".")         
+
+head(header_data)
+
+```
+
+```{r}
+# Deal with delimited files
+read.delim(file = "..\\DataFiles\\my_file.txt", header = TRUE, sep = "\t", dec = ".")
+read.delim2(file = "..\\DataFiles\\my_file.txt", header = TRUE, sep = "\t", dec = ",")
+
+```
+
+
+```{r}
+# Skip rows of a text file
+read.table(file = "..\\DataFiles\\my_file.txt", skip = 5) # Skips first 5 rows
+
+read.table(file = "..\\DataFiles\\my_file.txt", skip = 5, nrow = 5) # Reads lines 6 - 10
+
+```
+
+
+```{r}
+# Identify null values in a TXT File
+print("Identify null values in a TXT File")
+read.table(file = file_name, skipNul = TRUE)
+
+```
+
+```{r}
+# Import text from URL
+url <- "http://courses.washington.edu/b517/Datasets/string.txt"
+data <- read.table(url, header = TRUE)
+head(data)
+
+```
+
+
+
+```{r}
+# Performing Operations on imported data
+# Plotting the points
+plot(header_data)
+
+# Finding mean and median 
+cat("Mean : ", mean(header_data$x), 
+    "\nMedian : ", median(header_data$x))
+
+# Summary of data frame
+summary(header_data)
+
+# Amount of rows and columns
+dim(header_data)
+
+# Data frame length
+length(header_data)
+
+# View data
+head(header_data)
+
+# Check for null
+is.na(header_data)
+
+```
+
+```{r}
+# Import Data from database
+library("RSQLite")
+
+print("ePharmacy DB")
+## connect to db
+con <- dbConnect(drv=RSQLite::SQLite(), 
+                 dbname="D:\\programs\\projects\\camMIT_BACKEND_epharmacy_Blockhchain_WebDev\\db.sqlite3")
+
+## list all tables
+tables <- dbListTables(con)
+
+## exclude sqlite_sequence (contains table information)
+tables <- tables[tables != "sqlite_sequence"]
+
+lDataFrames <- vector("list", length=length(tables))
+
+## create a data.frame for each table
+for (i in seq(along=tables)) {
+  lDataFrames[[i]] <- dbGetQuery(conn=con, statement=paste("SELECT * FROM '", tables[[i]], "'", sep=""))
+}
+
+# summary(lDataFrames[[8]])
+
+```
+
+```{r}
+# Performing Operations on data
+cat("Number of tables : ", length(tables), "\n")
+print("List of tables")
+print(tables)
+
+print("Printing summary of 8th table - cart_item : ")
+print(summary(lDataFrames[[8]]))
+```
+
+
+```{r}
+# closing connection
+dbDisconnect(con)
+```
+
+
+
+```{r}
+# Finding the dimensions of each table in db
+for (i in 1:length(lDataFrames)) {
+  cat(i, tables[i], "\n")
+  print(dim(lDataFrames[[i]]))
+}
+
+```
+
+
+
+```{r}
+# Viewing data of a table in db
+head(lDataFrames[[3]])
+
+```
+
+
+
+
+```{r}
+
+# Checking for null values
+is.na(lDataFrames[[20]])
+
+```
+
+
+
+```{r}
+# Importing data from csv files
+file_name = '..\\DataFiles\\hour.csv'
+# Importing using read.table
+data <- read.table(file_name, header = TRUE)
+head(data)
+
+# Importing using read.csv
+hour <- read.csv(file_name, header = TRUE)
+head(hour)
+
+```
+
+
+```{r}
+# Performing operations on imported data
+# Summary of data
+summary(data)
+
+# View Data
+head(data)
+
+# Dimenstions of data
+dim(data)
+
+# Count null values
+sum(is.na(data))
+
+```
+
+
+
+
+
+```{r}
+# Reading XML File
+library("XML")
+library("methods")
+  
+# the contents of records.xml are parsed
+data <- xmlParse(file = "..\\DataFiles\\records.xml")
+data
+
+```
+
+
+
+```{r}
+# Extracting information about the XML file
+# Exract the root node.
+rootnode <- xmlRoot(data)
+  
+# number of nodes in the root.
+nodes <- xmlSize(rootnode)
+  
+# get entire contents of a record
+second_node <- rootnode[2]
+  
+# get 3rd attribute of 4th record
+attri <- rootnode[[3]][[4]]
+  
+cat('number of nodes: ', nodes)
+print ('details of 2 record: ')
+print (second_node)
+  
+# prints the marks of the fourth record
+print ('3rd attribute of 4th record: ')
+attri
+
+```
+
+
+```{r}
+# Conversion of xml to dataframe
+xml_data_df <-  xmlToDataFrame("..\\DataFiles\\records.xml")
+xml_data_df
+
+```
+
+
+
+
+
+```{r}
+# Importing data from JSON Files
+# Load the package required to read JSON files.
+library("rjson")
+  
+# Give the input file name to the function.
+result <- fromJSON(file = "..\\DataFiles\\books.json")
+#result
+
+```
+
+
+
+
+```{r}
+# Converting the JSON data into Dataframes
+result <- fromJSON(file = "..\\DataFiles\\student_data.json")
+json_data_df <- as.data.frame(result)
+head(json_data_df)
+
+```
+
+
+```{r}
+
+# Importing data from HTML Tables
+library(RCurl)
+url <- "https://www.w3schools.com/html/html_tables.asp"
+urldata <- getURL(url)
+data <- readHTMLTable(urldata,stringsAsFactors=FALSE,which=1)
+head(data)
+
+```
+
+```{r}
+# Exporting data as txt file
+write.table(headerless_data, file = '..\\DataFiles\\DataPoints.txt', sep=" ")
+
+```
+
+```{r}
+# Writing as a csv
+write.table(json_data_df, file = "..\\DataFiles\\CompanyData.csv", sep=",",row.names = T, col.names = T)
+
+```
+
+```{r}
+# Writing as a csv
+write.csv(lDataFrames[[8]], file = "..\\DataFiles\\CartItem.csv")
+
+```
+
+```{r}
+# Writing data as TSV File
+library(readr)
+write_tsv(lDataFrames[[20]], "PharmacyInventory.tsv")
+
+```
+
+
+
+
+```{r}
+# Writing data to xlsx file
+library(xlsx)
+
+write.xlsx(lDataFrames[[13]], file = "..\\DataFiles\\EPharmacyServerLogs.xlsx", sheetName = "Admin Logs", append = F)
+write.xlsx(lDataFrames[[16]], file = "..\\DataFiles\\EPharmacyServerLogs.xlsx", sheetName = "Session Logs", append = T)
+
+```
+
+
+```{r}
+# Writing to json file
+library("rjson")
+
+jsonData <- toJSON(lDataFrames)
+write(jsonData, "..\\DataFiles\\ePharmacyDB.json")
+
+```
+
+
+```{r}
+# Writing data into RData file
+saveRDS(xml_data_df, file = "..\\DataFiles\\xml_data_df.rds")
+
+```
+
+
+```{r}
+# Save workspace
+save.image(file = "..\\DataFiles\\Workspace.RData")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

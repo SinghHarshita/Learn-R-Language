@@ -1,0 +1,204 @@
+---
+title: "Experiment to study basics of R Programming."
+output: html_notebook
+author: "Harshita Singh"
+date: "25-03-2021"
+---
+
+**R Basics :** Comments, variables, identifier, keywords, basic data types, type conversion, I/P & O/P statements, formatting output etc.
+
+**Programs :**
+
+1. Program to calculate simple and compound interest.
+2. Program to performs different conversions like temperature conversion, distance conversion etc.
+
+```{r}
+# This is a comment
+"Hello World"
+
+"Single Line Cooment" #This is a comment
+
+# Multiline Comments
+# are written
+# this way in R
+"Multiline Comments"
+```
+```{r}
+# Creating a variable in R
+name <- "John Doe"
+age <- 21
+
+# Print/Output Variables
+name
+print(age)
+```
+```{r}
+# Concatenate Elements
+text <- "easy"
+paste("R is ", text)
+
+text1 <- "Learning R is"
+paste(text1, text)
+
+```
+```{r}
+# Multiple Variables
+var1 <- var2 <- var3 <- "Assignment"
+var1
+var2
+var3
+```
+
+```{r}
+# Legal variable names:
+myvar <- "John"
+my_var <- "John"
+myVar <- "John"
+MYVAR <- "John"
+myvar2 <- "John"
+.myvar <- "John"
+
+```
+
+```{r}
+# Basic Data Types
+# numeric
+x <- 10.5
+class(x)
+
+# integer
+x <- 1000L
+class(x)
+
+# complex
+x <- 9i + 3
+class(x)
+
+# character/string
+x <- "R is exciting"
+class(x)
+
+# logical/boolean
+x <- TRUE
+class(x)
+
+```
+
+Program to calculate simple and compound interest.
+
+**Note :** Run the program on the console.
+```{r}
+while (TRUE) {
+  # Printing the menu
+  cat("Menu : \n1. Calculate simple interest \n2. Calculate compound interest \n0. Exit \nEnter your choice : ")
+  choice <- scan()
+  
+  if (choice == 0)  {
+    break 
+  } else if (choice == 1 || choice == 2) {
+    # Calculate SI or CI
+    # Formula :  SI = p*n*r/100, CI = p*((1+r/100)^n)
+    print("Enter principal amount : ")
+    p <- scan()
+    
+    print("Enter rate : ")
+    r <- scan()
+    
+    print("Enter time span : ")
+    n <- scan()
+    
+    if (choice == 1) {
+      cat ("Simple Interest = ", p*n*r/100, "\n\n")
+    } else if (choice == 2) {
+      cat("Compound Interest = ", p*((1+(r/100))^n), "\n\n")
+    }
+    
+  } else {
+    print("Wrong Choice!")
+    break
+  }
+}
+
+```
+
+Program to perform different conversions like temperature conversion, distance conversion etc.
+
+**Note :** Run the program on the console.
+```{r}
+while (TRUE) {
+  # Printing the menu
+  cat(
+    "Menu: 
+    \n1. Convert celsius to fahrenheit 
+    \n2. Convert fahrenheit to celsius 
+    \n3. Convert from Feet to Meters
+    \n4. Convert from Feet to Inches
+    \n5. Convert from Meters to Feet
+    \n6. Convert from Meters to Inches
+    \n0. Exit
+    \nEnter your choice : "
+  )
+  
+  choice <- scan()
+  
+  if (choice == 0 || length(choice) != 1) {
+    
+    print("Exiting...")
+    break
+    
+  } else if (choice == 1) {
+    
+    # Convert celsius to fahrenheit 
+    print("Enter temperature in Celsius : ")
+    t <- scan()
+    
+    cat("Temperature in fahrenheit = ", ((9*t) + (32*5))/5, "\n")
+    
+  } else if (choice == 2) {
+    
+    # Convert fahrenheit to celsius 
+    print("Enter temperature in fahrenheit : ")
+    t <- scan()
+    
+    cat("Temperature in celsius = ", (5*(t - 32)/9), "\n")
+    
+  } else if (choice == 3) {
+    
+    # Convert from Feet to Meters 
+    print("Enter distance in feet : ")
+    t <- scan()
+    
+    cat("Distance in meters = ", t/3.2808, "\n")
+    
+  } else if (choice == 4) {
+    
+    # Convert from Feet to Inches 
+    print("Enter length in feet : ")
+    t <- scan()
+    
+    cat("Length in inches = ", t*12, "\n")
+    
+  } else if (choice == 5) {
+    
+    # Convert from Meters to Feet 
+    print("Enter distance in meters : ")
+    t <- scan()
+    
+    cat("Distance in feet = ", t*3.2808, "\n")
+    
+  } else if (choice == 6) {
+    
+    # Convert from Meters to Inches 
+    print("Enter length in Meters : ")
+    t <- scan()
+    
+    cat("Length in inches = ", t*39.370, "\n")
+    
+  } else {
+    cat("Wrong Choice! \n")
+  }
+}
+```
+
+
+
