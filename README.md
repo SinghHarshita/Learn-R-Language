@@ -1,6 +1,6 @@
 # Learn R Language from Scratch
 This repository contains programs that were written to understand and learn R language under R Programmming Lab.
-Each folder represents an experiment. The experiment details are :
+Each folder represents an experiment. The details are :
 1. R Basics: 
     * Comments, 
     * variables, 
